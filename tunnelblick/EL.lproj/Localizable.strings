@@ -344,6 +344,9 @@
 "VPN Details..." = "Λεπτομέρειες VPN…";
 
 /* Checkbox name */
+"Allow changes to manually-set network settings" = "Ενεργοποίηση χειροκίνητων ρυθμίσεων δικτύου";
+
+/* Checkbox name */
 "Apply to all" = "Εφαρμογή σε όλα";
 
 /* Checkbox name */
@@ -1133,6 +1136,9 @@
 "File '%@' is missing" = "Το αρχείο '%@' λείπει";
 
 /* Window text */
+"File '%@' is not a plain text or UTF-8 file." = "File '%@' is not a plain text or UTF-8 file.";
+
+/* Window text */
 "File '%@' is too short (%lu bytes)" = "Το αρχείο '%1$@' είναι πολύ μικρό (%2$lu bytes)";
 
 /* Window text */
@@ -1703,6 +1709,9 @@
 "Unable to open configuration file for modification" = "Αδυναμία ανοίγματος αρχείου παραμέτρων για την τροποποίηση";
 
 /* Window text */
+"Unable to parse configuration file as UTF-8" = "Unable to parse configuration file as UTF-8";
+
+/* Window text */
 "Unable to replace the '%@' configuration\n" = "Αδυναμία αντικατάστασης παραμέτρων '%@'\n";
 
 /* Window text */
@@ -1916,7 +1925,7 @@
 "<p><strong>When checked</strong>, OpenVPN will modify DNS and other settings after it sets up routing for the VPN instead of before setting up the routing.</p>\n<p><strong>When not checked</strong>, OpenVPN will modify DNS and other settings before it sets up routing for the VPN, instead of after setting up the routing. This can cause DNS failures or delays if the routes take a long time to set up -- for example, if there are many routes to set up.</p>\n" = "<p><strong>Όταν είναι επιλεγμένο</strong>, το OpenVPN θα τροποποιήσει πρώτα τις διαδρομές για το VPN και μετα τις ρυθμίσεις του DNS καθώς και αλλες ρυθμίσεις.</p>\n<p><strong>Όταν δεν είναι επιλεγμένο</strong>, το OpenVPN θα τροποποιήσει πρώτα τις ρυθμίσεις του DNS καθως και άλλες ρυθμίσεις και μετα θα ορίσει τις διαδρομές για το VPN. Αυτό μπορεί να προκαλέσει λάθη στον DNS ή καθυστερήσεις εαν οι διαδρομές λαμβάνουν πολύ χρόνο να οριστούν - για παράδειγμα, αν πρέπει να οριστούν πολλές διαδρομές.</p>\n";
 
 /* HTML info for the 'Run MTU maximum size test after connecting' checkbox. */
-"<p><strong>When checked</strong>, OpenVPN will run a test to determine the maximum MTU size for the connection. The test starts each time a connection is made, and can take several minutes. Test results appear in the Tunnelblick log.</p>\n" = "<p><strong>When checked</strong>, OpenVPN will run a test to determine the maximum MTU size for the connection. The test starts each time a connection is made, and can take several minutes. Test results appear in the Tunnelblick log.</p>\n";
+"<p><strong>When checked</strong>, OpenVPN will run a test to determine the maximum MTU size for the connection. The test starts each time a connection is made, and can take several minutes. Test results appear in the Tunnelblick log.</p>\n" = "<p><strong>Όταν επιλεγεί</strong>, το OpenVPN θα πραγματοποιήσει ένα τεστ για να καθορίσει το μέγιστο μεγεθος MTU για την σύνδεση. Το τεστ θα ξεκινήσει κάθε φορά που πραγματοποιείται σύνδεση, και μπορεί να διαρκέσει αρκετά λεπτά. Τα αποτελέσματα του τεστ θα εμφανιστούν στο αρχείο καταγραφής (log) του Tunnelblick.</p>\n";
 
 /* HTML info for the 'Check for updates to beta versions' checkbox. */
 "<p><strong>When checked</strong>, Tunnelblick will check for updates to beta versions.</p>\n<p><strong>When not checked</strong>, Tunnelblick will check for updates to stable versions.</p><p><strong>This checkbox is disabled</strong> and checked when using a beta version.</p>" = "<p><strong>When checked</strong>, Tunnelblick will check for updates to beta versions.</p>\n<p><strong>When not checked</strong>, Tunnelblick will check for updates to stable versions.</p><p><strong>This checkbox is disabled</strong> and checked when using a beta version.</p>";
@@ -1956,6 +1965,9 @@
 
 /* HTML info for the 'Keep connected' checkbox. */
 "<p><strong>When checked</strong>, if the VPN disconnects unexpectedly, Tunnelblick will attempt to reconnect it.</p>\n<p><strong>When not checked</strong>, Tunnelblick will not try to reconnect a VPN if it disconnects unexpectedly.</p>\n" = "<p><strong>When checked</strong>, if the VPN disconnects unexpectedly, Tunnelblick will attempt to reconnect it.</p>\n<p><strong>When not checked</strong>, Tunnelblick will not try to reconnect a VPN if it disconnects unexpectedly.</p>\n";
+
+/* HTML info for the 'Allow changes to manually-set network settings' checkbox. */
+"<p><strong>When checked</strong>, network settings which were set manually may be changed when the VPN connects. This will only happen if changes are specified by options in the OpenVPN configuration file or from the OpenVPN server.</p>\n<p><strong>When not checked</strong>, network settings which were set manually will not be changed when the VPN connects.</p>" = "<p><strong>When checked</strong>, network settings which were set manually may be changed when the VPN connects. This will only happen if changes are specified by options in the OpenVPN configuration file or from the OpenVPN server.</p>\n<p><strong>When not checked</strong>, network settings which were set manually will not be changed when the VPN connects.</p>";
 
 /* HTML info for the 'Inhibit automatic update checking and IP Address checking' checkbox. */
 "<p><strong>When checked</strong>, no automatic checking for updates or checking for IP address changes will be done, regardless of other settings. Note: both of these activities access the Tunnelblick website.</p>\n<p><strong>When not checked</strong>, automatic checking for updates will be done if enabled below, and checking for IP address changes will be done when connecting a configuration if the configuration's setting to do so is enabled.</p><p>See <a href=\"https://tunnelblick.net/cPrivacy.html\">Privacy and Security</a> [tunnelblick.net] for details.</p><p>&nbsp;</p>" = "<p><strong>When checked</strong>, no automatic checking for updates or checking for IP address changes will be done, regardless of other settings. Note: both of these activities access the Tunnelblick website.</p>\n<p><strong>When not checked</strong>, automatic checking for updates will be done if enabled below, and checking for IP address changes will be done when connecting a configuration if the configuration's setting to do so is enabled.</p><p>See <a href=\"https://tunnelblick.net/cPrivacy.html\">Privacy and Security</a> [tunnelblick.net] for details.</p><p>&nbsp;</p>";
@@ -2078,8 +2090,7 @@
 "Dutch translation" = "Ολλανδική μετάφραση";
 
 /* Toolbar text for 'Lock' icon
-   Toolbar text for 'Lock' item
-*/
+   Toolbar text for 'Lock' item */
 "Enter admin mode" = "Είσοδος σε κατάσταση διαχειριστή";
 
 /* Credit description */
@@ -2087,6 +2098,9 @@
 
 /* Credit description */
 "Finnish translation" = "Φινλανδική μετάφραση";
+
+/* Credit description */
+"Flemish translation" = "Φλαμανδική μετάφραση";
 
 /* Credit description */
 "Founder, original program and documentation" = "Ιδρυτής, αυθεντικό πρόγραμμα και εγχειρίδια";
@@ -2164,31 +2178,31 @@
 "Romanian translation" = "Ρουμάνικη μετάφραση";
 
 /* Credit description */
-"Russian translation" = "Russian translation";
+"Russian translation" = "Ρωσική μετάφραση";
 
 /* Credit description */
-"Serbian (Latin) translation" = "Serbian (Latin) translation";
+"Serbian (Latin) translation" = "Σερβική (Λατινική) μετάφραση";
 
 /* Credit description */
-"Slovak translation" = "Slovak translation";
+"Slovak translation" = "Σλοβακική μετάφραση";
 
 /* Credit description */
-"Spanish translation" = "Spanish translation";
+"Spanish translation" = "Ισπανική μετάφραση";
 
 /* Credit description */
-"Swedish translation" = "Swedish translation";
+"Swedish translation" = "Σουϊδική μετάφραση";
 
 /* Credit description */
 "Tunnelblick icon" = "Εικονίδιο Tunnelblick";
 
 /* Credit description */
-"Turkish translation" = "Turkish translation";
+"Turkish translation" = "Τούρκικη μετάφραση";
 
 /* Credit description */
 "UKKQueue and UKLoginItemRegistry" = "UKKQueue και UKLoginItemRegistry";
 
 /* Credit description */
-"Ukrainian translation" = "Ukrainian translation";
+"Ukrainian translation" = "Ουκρανική μετάφραση";
 
 /* Credit description */
 "Up and Down scripts" = "Πάνω και Κάτω σκρίπτ";

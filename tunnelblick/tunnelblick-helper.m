@@ -66,7 +66,7 @@ void appendLog(NSString * msg) {
     fprintf(stderr, "%s\n", [msg UTF8String]);
 }
 
-    // returnValue: have used 172-247, plus the values in define.h (248-254)
+    // returnValue: have used 171-247, plus the values in define.h (248-254)
 void exitOpenvpnstart(OSStatus returnValue) {
     [pool drain];
     exit(returnValue);
@@ -912,7 +912,7 @@ int runAsRoot(NSString * thePath, NSArray * theArguments, mode_t permissions) {
     
     [task setCurrentDirectoryPath: @"/private/tmp"];
     
-    [task setEnvironment: getSafeEnvironment([[thePath lastPathComponent] isEqualToString: @"openvpn"])];
+    [task setEnvironment: getSafeEnvironment()];
     
 	becomeRoot([NSString stringWithFormat: @"launch %@", [thePath lastPathComponent]]);
     
@@ -940,12 +940,18 @@ int runAsRoot(NSString * thePath, NSArray * theArguments, mode_t permissions) {
 	NSCharacterSet * trimCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 
 	NSString * stdOutput = [[[NSString alloc] initWithData: stdData encoding: NSUTF8StringEncoding] autorelease];
+	if (  stdOutput == nil  ) {
+		stdOutput = @"Unable to interpret stdout as UTF-8";
+	}
     stdOutput = [stdOutput stringByTrimmingCharactersInSet: trimCharacterSet];
 	if (  [stdOutput length] != 0  ) {
 		fprintf(stderr, "stdout from %s: %s\n", [[thePath lastPathComponent] UTF8String], [stdOutput UTF8String]);
 	}
 	
 	NSString * errOutput = [[[NSString alloc] initWithData: errData encoding: NSUTF8StringEncoding] autorelease];
+	if (  errOutput == nil  ) {
+		errOutput = @"Unable to interpret stderr as UTF-8";
+	}
     errOutput = [errOutput stringByTrimmingCharactersInSet: trimCharacterSet];
 	if (  [errOutput length] != 0  ) {
 		fprintf(stderr, "stderr from %s: %s\n", [[thePath lastPathComponent] UTF8String], [errOutput UTF8String]);
@@ -1722,7 +1728,11 @@ void printSanitizedConfigurationFile(NSString * configFile, unsigned cfgLocCode)
     }
     
     NSString * cfgContents = [[[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding] autorelease];
-    
+	if (  ! cfgContents  ) {
+		fprintf(stderr, "Could not interpret the configuration file at %s as UTF-8\n", [actualConfigPath UTF8String]);
+		exit(EXIT_FAILURE);
+	}
+	
     NSString * sanitizedCfgContents = sanitizedConfigurationContents(cfgContents);
     if (  ! sanitizedCfgContents  ) {
         fprintf(stderr, "There was a problem in the configuration file at %s\n", [actualConfigPath UTF8String]);
@@ -2101,6 +2111,22 @@ int startVPN(NSString * configFile,
 								 @"--cd",         cdFolderPath,
                                  nil];
     
+	// Set IV_GUI_VER using the "--setenv" option
+	// We get the Info.plist contents as follows because NSBundle's objectForInfoDictionaryKey: method returns the object as it was at
+	// compile time, before the TBBUILDNUMBER is replaced by the actual build number (which is done in the final run-script that builds Tunnelblick)
+	// By constructing the path, we force the objects to be loaded with their values at run time.
+	NSString * plistPath    = [[[[NSBundle mainBundle] bundlePath]
+								stringByDeletingLastPathComponent] // Remove /Resources
+							   stringByAppendingPathComponent: @"Info.plist"];
+	NSDictionary * infoDict = [NSDictionary dictionaryWithContentsOfFile: plistPath];
+	NSString * bundleId     = [infoDict objectForKey: @"CFBundleIdentifier"];
+	NSString * buildNumber  = [infoDict objectForKey: @"CFBundleVersion"];
+	NSString * fullVersion  = [infoDict objectForKey: @"CFBundleShortVersionString"];
+	NSString * guiVersion   = [NSString stringWithFormat: @"\"%@ %@ %@\"", bundleId, buildNumber, fullVersion];
+	[arguments addObject: @"--setenv"];
+	[arguments addObject: @"IV_GUI_VER"];
+	[arguments addObject: guiVersion];
+	
     // Optionally specify verb level before the configuration file, so the configuration file can override it while it is being processed
     if (  verbString  ) {
         [arguments addObject: @"--verb"];
@@ -2313,6 +2339,10 @@ int startVPN(NSString * configFile,
             [scriptOptions appendString: @" -n"];
         }
         
+		if (  (bitMask & OPENVPNSTART_OVERRIDE_MANUAL_NETWORK_SETTINGS) != 0  ) {
+			[scriptOptions appendString: @" -o"];
+		}
+		
         if (  (bitMask & OPENVPNSTART_PREPEND_DOMAIN_NAME) != 0  ) {
             [scriptOptions appendString: @" -p"];
         }
@@ -2856,7 +2886,18 @@ int main(int argc, char * argv[]) {
     
     BOOL	syntaxError	= TRUE;
     int     retCode = 0;
-    
+
+	// Verify that all arguments are valid UTF-8 strings
+	int ix;
+	for (  ix=0; ix<argc; ix++  ) {
+		const char * arg = argv[ix];
+		if (   (arg == NULL)
+			|| ([NSString stringWithUTF8String: arg] == NULL)  ) {
+			fprintf(stderr, "Invalid argument #%d (0 = command; 1 = first actual argument)\n", ix);
+			exitOpenvpnstart(171);
+		}
+	}
+
     if (  argc > 1  ) {
 		char * command = argv[1];
 		

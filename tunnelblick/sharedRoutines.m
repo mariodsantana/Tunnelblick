@@ -195,7 +195,13 @@ BOOL needToReplaceLaunchDaemon(void) {
 		&& tunnelblickdPlistOK
 		&& socketOK  ) {
 		NSString * previousDaemonHash = [[[NSString alloc] initWithData: previousDaemonHashData encoding: NSUTF8StringEncoding] autorelease];
+		if (  previousDaemonHash == nil  ) {
+			previousDaemonHash = @"yyy";
+		}
         NSString * previousPlistHash  = [[[NSString alloc] initWithData: previousPlistHashData  encoding: NSUTF8StringEncoding] autorelease];
+		if (  previousDaemonHash == nil  ) {
+			previousDaemonHash = @"zzz";
+		}
         NSDictionary * activePlist    = [NSDictionary dictionaryWithContentsOfFile: TUNNELBLICKD_PLIST_PATH];
 		BOOL daemonHashesMatch  = [previousDaemonHash isEqual: hashForTunnelblickdProgramInApp()];
 		BOOL plistHashesMatch   = [previousPlistHash  isEqual: hashForTunnelblickdPlistToUse()];
@@ -871,10 +877,12 @@ BOOL invalidConfigurationName(NSString * name, const char badCharsC[])
 		}
 	}
 	
-	const char * nameC          = [name UTF8String];
+	const char * nameC = [name UTF8String];
 	
-	return (   ( [name length] == 0)
+	return (   ( nameC == NULL)
+			|| ( [name length] == 0)
             || ( [name hasPrefix: @"."] )
+			|| ( [name hasSuffix: @"."] )
             || ( [name rangeOfString: @".."].length != 0)
             || ( NULL != strpbrk(nameC, badCharsC) )
             );
@@ -1013,16 +1021,13 @@ NSData * availableDataOrError(NSFileHandle * file) {
 	}
 }
 
-NSDictionary * getSafeEnvironment(bool includeIV_GUI_VER) {
+NSDictionary * getSafeEnvironment(void) {
     
     // Create our own environment to guard against Shell Shock (BashDoor) and similar vulnerabilities in bash
     // (Even if bash is not being launched directly, whatever is being launched could invoke bash;
 	//  for example, openvpnstart launches openvpn which can invoke bash for scripts)
     //
     // This environment consists of several standard shell variables
-    // If specified, we add the 'IV_GUI_VER' environment variable,
-    //                          which is set to "<bundle-id><space><build-number><space><human-readable-version>"
-    //
 	// A modified version of this routine is in process-network-changes
     // A modified version of this routine is in tunnelblickd
 	
@@ -1035,22 +1040,6 @@ NSDictionary * getSafeEnvironment(bool includeIV_GUI_VER) {
                                  TOOL_PATH_FOR_BASH,     @"SHELL",
                                  @"unix2003",            @"COMMAND_MODE",
                                  nil];
-    
-    if (  includeIV_GUI_VER  ) {
-        // We get the Info.plist contents as follows because NSBundle's objectForInfoDictionaryKey: method returns the object as it was at
-        // compile time, before the TBBUILDNUMBER is replaced by the actual build number (which is done in the final run-script that builds Tunnelblick)
-        // By constructing the path, we force the objects to be loaded with their values at run time.
-        NSString * plistPath    = [[[[NSBundle mainBundle] bundlePath]
-                                    stringByDeletingLastPathComponent] // Remove /Resources
-                                   stringByAppendingPathComponent: @"Info.plist"];
-        NSDictionary * infoDict = [NSDictionary dictionaryWithContentsOfFile: plistPath];
-        NSString * bundleId     = [infoDict objectForKey: @"CFBundleIdentifier"];
-        NSString * buildNumber  = [infoDict objectForKey: @"CFBundleVersion"];
-        NSString * fullVersion  = [infoDict objectForKey: @"CFBundleShortVersionString"];
-        NSString * guiVersion   = [NSString stringWithFormat: @"%@ %@ %@", bundleId, buildNumber, fullVersion];
-        
-        [env setObject: guiVersion forKey: @"IV_GUI_VER"];
-    }
     
     return [NSDictionary dictionaryWithDictionary: env];
 }
@@ -1148,7 +1137,7 @@ OSStatus runTool(NSString * launchPath,
     [task setCurrentDirectoryPath: @"/private/tmp"];
     [task setStandardOutput: outFile];
     [task setStandardError:  errFile];
-    [task setEnvironment: getSafeEnvironment([[launchPath lastPathComponent] isEqualToString: @"openvpn"])];
+    [task setEnvironment: getSafeEnvironment()];
     
     [task launch];
     
@@ -1160,8 +1149,14 @@ OSStatus runTool(NSString * launchPath,
     [errFile closeFile];
     
     NSString * stdOutString = [NSString stringWithContentsOfFile: stdOutPath encoding: NSUTF8StringEncoding error: nil];
+	if (  stdOutString == nil  ) {
+		stdOutString = @"Could not interpret stdout as UTF-8";
+	}
     NSString * stdErrString = [NSString stringWithContentsOfFile: stdErrPath encoding: NSUTF8StringEncoding error: nil];
-    
+	if (  stdErrString == nil  ) {
+		stdErrString = @"Could not interpret stderr as UTF-8";
+	}
+	
     [[NSFileManager defaultManager] tbRemoveFileAtPath: tempDir handler: nil]; // Ignore errors; there is nothing we can do about them
     
     NSString * message = nil;
@@ -1197,7 +1192,7 @@ void startTool(NSString * launchPath,
     [task setLaunchPath: launchPath];
     [task setArguments:  arguments];
     [task setCurrentDirectoryPath: @"/private/tmp"];
-    [task setEnvironment: getSafeEnvironment([[launchPath lastPathComponent] isEqualToString: @"openvpn"])];
+    [task setEnvironment: getSafeEnvironment()];
     
     [task launch];
 }
@@ -1544,6 +1539,7 @@ NSString * sanitizedConfigurationContents(NSString * cfgContents) {
                                  @"<pkcs12>",
                                  @"<secret>",
                                  @"<tls-auth>",
+                                 @"<tls-crypt>",
                                  nil];
     
     NSArray * endInlineKeys = [NSArray arrayWithObjects:
@@ -1556,6 +1552,7 @@ NSString * sanitizedConfigurationContents(NSString * cfgContents) {
                                @"</pkcs12>",
                                @"</secret>",
                                @"</tls-auth>",
+                               @"</tls-crypt>",
                                nil];
     
     unsigned i;

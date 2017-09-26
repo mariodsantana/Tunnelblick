@@ -251,6 +251,8 @@ extern TBUserDefaults * gTbDefaults;
                             [NSArray arrayWithObjects: @"Massimo Grassi",                NSLocalizedString(@"Italian translation",                 @"Credit description"), nil],
                             [NSArray arrayWithObjects: @"Ricardo Guijt",                 NSLocalizedString(@"Dutch translation",                   @"Credit description"), nil],
                             [NSArray arrayWithObjects: @"Pierpaolo Gulla",               NSLocalizedString(@"Italian translation",                 @"Credit description"), nil],
+							[NSArray arrayWithObjects: @"Robbert Hamburg CISA, CISSP, CEH", NSLocalizedString(@"Dutch translation",                @"Credit description"), nil],
+							[NSArray arrayWithObjects: @"Robbert Hamburg CISA, CISSP, CEH", NSLocalizedString(@"Flemish translation",              @"Credit description"), nil],
                             [NSArray arrayWithObjects: @"Takatoh Herminghaus",           NSLocalizedString(@"German translation",                  @"Credit description"), nil],
                             [NSArray arrayWithObjects: @"Oliver Hill",                   NSLocalizedString(@"French translation",                  @"Credit description"), nil],
                             [NSArray arrayWithObjects: @"'Dr Hok'",                      NSLocalizedString(@"German translation",                  @"Credit description"), nil],
@@ -284,6 +286,9 @@ extern TBUserDefaults * gTbDefaults;
 							[NSArray arrayWithObjects: @"Luigi Martini",                 NSLocalizedString(@"Italian translation",                 @"Credit description"), nil],
                             [NSArray arrayWithObjects: @"Denis Volpato Martins",         NSLocalizedString(@"Portuguese (Brazilian) translation",  @"Credit description"), nil],
 							[NSArray arrayWithObjects: @"Klaus Marx",                    NSLocalizedString(@"German translation",                  @"Credit description"), nil],
+							[NSArray arrayWithObjects: @"Rustam Mehmandarov",            NSLocalizedString(@"Azerbaijani translation",             @"Credit description"), nil],
+							[NSArray arrayWithObjects: @"Rustam Mehmandarov",            NSLocalizedString(@"Norwegian translation",               @"Credit description"), nil],
+							[NSArray arrayWithObjects: @"Rustam Mehmandarov",            NSLocalizedString(@"Russian translation",                 @"Credit description"), nil],
                             [NSArray arrayWithObjects: @"Atakan Meray",                  NSLocalizedString(@"Turkish translation",                 @"Credit description"), nil],
                             [NSArray arrayWithObjects: @"Boian Mihailov",                NSLocalizedString(@"Bulgarian translation",               @"Credit description"), nil],
                             [NSArray arrayWithObjects: @"Richárd Murvai",                NSLocalizedString(@"Hungarian translation",               @"Credit description"), nil],
@@ -327,6 +332,7 @@ extern TBUserDefaults * gTbDefaults;
                             [NSArray arrayWithObjects: @"Mikko Toivola",                 NSLocalizedString(@"Finnish translation",                 @"Credit description"), nil],
                             [NSArray arrayWithObjects: @"André Torres",                  NSLocalizedString(@"Portuguese translation",              @"Credit description"), nil],
                             [NSArray arrayWithObjects: @"Andika Triwidada",              NSLocalizedString(@"Indonesian translation",              @"Credit description"), nil],
+							[NSArray arrayWithObjects: @"Roman Truba",					 NSLocalizedString(@"Russian translation",                 @"Credit description"), nil],
                             [NSArray arrayWithObjects: @"Eugene Trufanov",               NSLocalizedString(@"Russian translation",                 @"Credit description"), nil],
                             [NSArray arrayWithObjects: @"Dennis Ukhanov",                NSLocalizedString(@"Russian translation",                 @"Credit description"), nil],
                             [NSArray arrayWithObjects: @"Caglar Ulkuderner",             NSLocalizedString(@"Turkish translation",                 @"Credit description"), nil],
@@ -489,8 +495,14 @@ extern TBUserDefaults * gTbDefaults;
     [self substitute: NSLocalizedString(@"Translation by", @"Window text") in: creditsString];
     
     e = [locCredits objectEnumerator];
+	NSString * previousName = nil;
     while (  (row = [e nextObject])  ) {
         NSString * name = [row objectAtIndex: 0];
+		if (  [previousName isEqualToString: name]  ) {
+			name = @" ";
+		} else {
+			previousName = name;
+		}
         NSString * role = [row objectAtIndex: 1];
 		if (  [UIHelper languageAtLaunchWasRTL]  ) {
 			[self substitute: role in: creditsString];
@@ -556,6 +568,14 @@ extern TBUserDefaults * gTbDefaults;
 - (void)scrollCredits:(NSTimer *)timer
 {
 	(void) timer;
+    
+    if (  lastPosition != [[infoCreditSV contentView] bounds].origin.y  ) {
+        // Manual scroll has occurred. Pause the auto-scroll for at least a second.
+        startTime = [NSDate timeIntervalSinceReferenceDate] + 1.0;
+        
+        requestedPosition = lastPosition;
+        restartAtTop = NO;
+    }
 	
     if ([NSDate timeIntervalSinceReferenceDate] >= startTime) {
         if (  restartAtTop  ) {
@@ -570,12 +590,7 @@ extern TBUserDefaults * gTbDefaults;
             }
             // Set the position
             [infoCreditTV scrollPoint:NSMakePoint( 0.0, 0.0 )];
-            
-            return;
-        }
-        
-        CGFloat actualPosition = [[infoCreditSV contentView] bounds].origin.y;
-        if (  requestedPosition > actualPosition + 200.0  ) {
+        } else if (  requestedPosition > [infoCreditTV bounds].size.height + 200.0  ) {
             // Reset the startTime
             startTime = [NSDate timeIntervalSinceReferenceDate] + 1.0;  // Time from fading out at end to fade in at top
             
@@ -596,6 +611,8 @@ extern TBUserDefaults * gTbDefaults;
             requestedPosition += 1.0;
         }
     }
+    
+    lastPosition = [[infoCreditSV contentView] bounds].origin.y;
 }
 
 TBSYNTHESIZE_OBJECT_GET(retain, NSButton        *, infoHelpButton)

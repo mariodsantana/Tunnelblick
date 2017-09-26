@@ -332,17 +332,17 @@ TBSYNTHESIZE_NONOBJECT_GET(NSUInteger, selectedLeftNavListIndex)
 		// Add an NSToolbarFlexibleSpaceIdentifier item on the left, to force the primary toolbar buttons to the right
 		[self addLockIcon];
 		[self addView: (NSView *)[NSNull null]  label: NSToolbarFlexibleSpaceItemIdentifier                  image: (NSImage *)[NSNull null]];
-		[self addView: infoPrefsView            label: NSLocalizedString(@"Info",           @"Window title") image: [NSImage imageNamed: @"Info"          ]];
-		[self addView: utilitiesPrefsView       label: NSLocalizedString(@"Utilities",      @"Window title") image: [NSImage imageNamed: @"Utilities"     ]];
-		[self addView: generalPrefsView         label: NSLocalizedString(@"Preferences",    @"Window title") image: [NSImage imageNamed: @"Preferences"   ]];
-		[self addView: appearancePrefsView      label: NSLocalizedString(@"Appearance",     @"Window title") image: [NSImage imageNamed: @"Appearance"    ]];
-		[self addView: configurationsPrefsView  label: NSLocalizedString(@"Configurations", @"Window title") image: [NSImage imageNamed: @"Configurations"]];
+		[self addView: infoPrefsView            label: NSLocalizedString(@"Info",           @"Window title") image: [NSImage imageNamed: NSImageNameInfo              ]];
+		[self addView: utilitiesPrefsView       label: NSLocalizedString(@"Utilities",      @"Window title") image: [NSImage imageNamed: NSImageNameAdvanced          ]];
+		[self addView: generalPrefsView         label: NSLocalizedString(@"Preferences",    @"Window title") image: [NSImage imageNamed: NSImageNamePreferencesGeneral]];
+		[self addView: appearancePrefsView      label: NSLocalizedString(@"Appearance",     @"Window title") image: [NSImage imageNamed: NSImageNameColorPanel        ]];
+		[self addView: configurationsPrefsView  label: NSLocalizedString(@"Configurations", @"Window title") image: [NSImage imageNamed: NSImageNameNetwork           ]];
 	} else {
-		[self addView: configurationsPrefsView  label: NSLocalizedString(@"Configurations", @"Window title") image: [NSImage imageNamed: @"Configurations"]];
-		[self addView: appearancePrefsView      label: NSLocalizedString(@"Appearance",     @"Window title") image: [NSImage imageNamed: @"Appearance"    ]];
-		[self addView: generalPrefsView         label: NSLocalizedString(@"Preferences",    @"Window title") image: [NSImage imageNamed: @"Preferences"   ]];
-		[self addView: utilitiesPrefsView       label: NSLocalizedString(@"Utilities",      @"Window title") image: [NSImage imageNamed: @"Utilities"     ]];
-		[self addView: infoPrefsView            label: NSLocalizedString(@"Info",           @"Window title") image: [NSImage imageNamed: @"Info"          ]];
+		[self addView: configurationsPrefsView  label: NSLocalizedString(@"Configurations", @"Window title") image: [NSImage imageNamed: NSImageNameNetwork           ]];
+		[self addView: appearancePrefsView      label: NSLocalizedString(@"Appearance",     @"Window title") image: [NSImage imageNamed: NSImageNameColorPanel        ]];
+		[self addView: generalPrefsView         label: NSLocalizedString(@"Preferences",    @"Window title") image: [NSImage imageNamed: NSImageNamePreferencesGeneral]];
+		[self addView: utilitiesPrefsView       label: NSLocalizedString(@"Utilities",      @"Window title") image: [NSImage imageNamed: NSImageNameAdvanced          ]];
+		[self addView: infoPrefsView            label: NSLocalizedString(@"Info",           @"Window title") image: [NSImage imageNamed: NSImageNameInfo              ]];
 		[self addView: (NSView *)[NSNull null]  label: NSToolbarFlexibleSpaceItemIdentifier                  image: (NSImage *)[NSNull null]];
 		[self addLockIcon];
 	}
@@ -2529,11 +2529,11 @@ static BOOL firstTimeShowingWindow = TRUE;
     NSUInteger logSizeIx = NSNotFound;
     NSArrayController * ac = [generalPrefsView maximumLogSizeArrayController];
     NSArray * list = [ac content];
-    unsigned i;
+    NSUInteger i;
     for (  i=0; i<[list count]; i++  ) {
         NSDictionary * dict = [list objectAtIndex: i];
         NSString * listValue = [dict objectForKey: @"value"];
-        unsigned listValueSize;
+        NSUInteger listValueSize;
         if (  [listValue respondsToSelector:@selector(intValue)]  ) {
             listValueSize = [listValue unsignedIntValue];
         } else {
@@ -2811,9 +2811,9 @@ static BOOL firstTimeShowingWindow = TRUE;
     
     // Search popup list for the specified filename and the default
     NSArray * icsContent = [[appearancePrefsView appearanceIconSetArrayController] content];
-    unsigned i;
+    NSUInteger i;
     NSUInteger iconSetIx = NSNotFound;
-    unsigned defaultIconSetIx = NSNotFound;
+    NSUInteger defaultIconSetIx = NSNotFound;
     for (  i=0; i< [icsContent count]; i++  ) {
         NSDictionary * dict = [icsContent objectAtIndex: i];
         NSString * fileName = [dict objectForKey: @"value"];

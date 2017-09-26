@@ -1154,7 +1154,7 @@ extern volatile int32_t       gActiveInactiveState;
 {
     NSString * before = [dict objectForKey: @"before"];
 	NSString * after  = [dict objectForKey: @"after"];
-	[[NSApp delegate] setPublicIPAddress: after];
+	[((MenuController *)[NSApp delegate]) setPublicIPAddress: after];
     [self checkForChangedIPAddress: before
                       andIPAddress: after];
 }
@@ -1309,9 +1309,9 @@ extern volatile int32_t       gActiveInactiveState;
     // Got IP address, even though DNS isn't working
 	NSString * address = [ipInfo objectAtIndex:0];
     TBLog(@"DB-IC", @"checkIPAddressAfterConnectedThread: fetched IP address %@ using the ipInfo host's IP address", address)
-	[[NSApp delegate] performSelectorOnMainThread: @selector(setPublicIPAddress:)
-									   withObject: address
-									waitUntilDone: NO];
+	[((MenuController *)[NSApp delegate]) performSelectorOnMainThread: @selector(setPublicIPAddress:)
+                                                           withObject: address
+                                                        waitUntilDone: NO];
     [self performSelectorOnMainThread: @selector(checkIPAddressNoDNSLogMessage:)
                            withObject: [NSString stringWithFormat: @"*Tunnelblick: fetched IP address information using the ipInfo host's IP address after connecting."]
                         waitUntilDone: NO];
@@ -1899,18 +1899,19 @@ static pthread_mutex_t areConnectingMutex = PTHREAD_MUTEX_INITIALIZER;
         bitMask = bitMask | OPENVPNSTART_NOT_WHEN_COMPUTER_STARTS;
     }
     
-    [self setBit: OPENVPNSTART_RESTORE_ON_WINS_RESET     inMask: &bitMask ifConnectionPreference: @"-doNotRestoreOnWinsReset"              inverted: YES defaultTo: NO];
-    [self setBit: OPENVPNSTART_RESTORE_ON_DNS_RESET      inMask: &bitMask ifConnectionPreference: @"-doNotRestoreOnDnsReset"               inverted: YES defaultTo: NO];
-    [self setBit: OPENVPNSTART_PREPEND_DOMAIN_NAME       inMask: &bitMask ifConnectionPreference: @"-prependDomainNameToSearchDomains"     inverted: NO  defaultTo: NO];
-    [self setBit: OPENVPNSTART_FLUSH_DNS_CACHE           inMask: &bitMask ifConnectionPreference: @"-doNotFlushCache"                      inverted: YES defaultTo: NO];
-    [self setBit: OPENVPNSTART_USE_ROUTE_UP_NOT_UP       inMask: &bitMask ifConnectionPreference: @"-useRouteUpInsteadOfUp"                inverted: NO  defaultTo: NO];
-    [self setBit: OPENVPNSTART_RESET_PRIMARY_INTERFACE   inMask: &bitMask ifConnectionPreference: @"-resetPrimaryInterfaceAfterDisconnect" inverted: NO  defaultTo: NO];
-    [self setBit: OPENVPNSTART_USE_REDIRECT_GATEWAY_DEF1 inMask: &bitMask ifConnectionPreference: @"-routeAllTrafficThroughVpn"            inverted: NO  defaultTo: NO];
-    [self setBit: OPENVPNSTART_NO_DEFAULT_DOMAIN         inMask: &bitMask ifConnectionPreference: @"-doNotUseDefaultDomain"                inverted: NO  defaultTo: NO];
-    [self setBit: OPENVPNSTART_WAIT_FOR_DHCP_IF_TAP      inMask: &bitMask ifConnectionPreference: @"-waitForDHCPInfoIfTap"                 inverted: NO  defaultTo: NO];
-    [self setBit: OPENVPNSTART_DO_NOT_WAIT_FOR_INTERNET  inMask: &bitMask ifConnectionPreference: @"-doNotWaitForInternetAtBoot"           inverted: NO  defaultTo: NO];
-    [self setBit: OPENVPNSTART_ENABLE_IPV6_ON_TAP        inMask: &bitMask ifConnectionPreference: @"-enableIpv6OnTap"                      inverted: NO  defaultTo: NO];
-    [self setBit: OPENVPNSTART_DISABLE_IPV6_ON_TUN       inMask: &bitMask ifConnectionPreference: @"-doNotDisableIpv6onTun"                inverted: YES defaultTo: NO];
+    [self setBit: OPENVPNSTART_RESTORE_ON_WINS_RESET			inMask: &bitMask ifConnectionPreference: @"-doNotRestoreOnWinsReset"					inverted: YES defaultTo: NO];
+    [self setBit: OPENVPNSTART_RESTORE_ON_DNS_RESET				inMask: &bitMask ifConnectionPreference: @"-doNotRestoreOnDnsReset"						inverted: YES defaultTo: NO];
+    [self setBit: OPENVPNSTART_PREPEND_DOMAIN_NAME				inMask: &bitMask ifConnectionPreference: @"-prependDomainNameToSearchDomains"			inverted: NO  defaultTo: NO];
+    [self setBit: OPENVPNSTART_FLUSH_DNS_CACHE					inMask: &bitMask ifConnectionPreference: @"-doNotFlushCache"							inverted: YES defaultTo: NO];
+    [self setBit: OPENVPNSTART_USE_ROUTE_UP_NOT_UP				inMask: &bitMask ifConnectionPreference: @"-useRouteUpInsteadOfUp"						inverted: NO  defaultTo: NO];
+    [self setBit: OPENVPNSTART_RESET_PRIMARY_INTERFACE			inMask: &bitMask ifConnectionPreference: @"-resetPrimaryInterfaceAfterDisconnect"		inverted: NO  defaultTo: NO];
+    [self setBit: OPENVPNSTART_USE_REDIRECT_GATEWAY_DEF1		inMask: &bitMask ifConnectionPreference: @"-routeAllTrafficThroughVpn"					inverted: NO  defaultTo: NO];
+    [self setBit: OPENVPNSTART_NO_DEFAULT_DOMAIN				inMask: &bitMask ifConnectionPreference: @"-doNotUseDefaultDomain"						inverted: NO  defaultTo: NO];
+	[self setBit: OPENVPNSTART_OVERRIDE_MANUAL_NETWORK_SETTINGS	inMask: &bitMask ifConnectionPreference: @"-allowChangesToManuallySetNetworkSettings"	inverted: NO  defaultTo: NO];
+    [self setBit: OPENVPNSTART_WAIT_FOR_DHCP_IF_TAP				inMask: &bitMask ifConnectionPreference: @"-waitForDHCPInfoIfTap"						inverted: NO  defaultTo: NO];
+    [self setBit: OPENVPNSTART_DO_NOT_WAIT_FOR_INTERNET			inMask: &bitMask ifConnectionPreference: @"-doNotWaitForInternetAtBoot"					inverted: NO  defaultTo: NO];
+    [self setBit: OPENVPNSTART_ENABLE_IPV6_ON_TAP				inMask: &bitMask ifConnectionPreference: @"-enableIpv6OnTap"							inverted: NO  defaultTo: NO];
+    [self setBit: OPENVPNSTART_DISABLE_IPV6_ON_TUN				inMask: &bitMask ifConnectionPreference: @"-doNotDisableIpv6onTun"						inverted: YES defaultTo: NO];
     
     if (  loggingLevelPreference == TUNNELBLICK_NO_LOGGING_LEVEL  ) {
         bitMask = bitMask | OPENVPNSTART_DISABLE_LOGGING;

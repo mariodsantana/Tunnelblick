@@ -375,6 +375,7 @@ TBSYNTHESIZE_OBJECT_GET(retain, NSString *, nameForErrorMessages)
     //
     //      Other files
     //            * Cannot start with "{" (which indicates a "rich text format" file
+	//			  * Must be in UTF-8 format
     //            * Script and configuration files (.sh, .conf, .ovpn) cannot contain CR characters but that problem is fixed when copying the files
     //            * Key/certificate files cannot contain non-ASCII characters
     
@@ -398,16 +399,28 @@ TBSYNTHESIZE_OBJECT_GET(retain, NSString *, nameForErrorMessages)
         }
     }
     
-    // Check for RTF files
-    const unsigned char * chars = [data bytes];
+	// Get file contents as a NUL-terminated string and make sure it contains no NUL characters
+	NSMutableData * mData = [[data mutableCopy] autorelease];
+	[mData appendBytes: "\0" length: 1];
+	const unsigned char * chars = [mData bytes];
+	if (  strlen( (char *)chars ) != [mData length] - 1  ) {
+		return [self logMessage: [NSString stringWithFormat: @"File '%@' contains one or more NUL characters.", path]
+					  localized: [NSString stringWithFormat: NSLocalizedString(@"File '%@' contains one or more NUL characters.", @"Window text"), [path lastPathComponent]]];
+	}
+
+	// Check for RTF files
     if (   chars[0] == '{'  ) {
         return [self logMessage: [NSString stringWithFormat: @"File '%@' appears to be in 'rich text' format because it starts with a '{' character. All OpenVPN-related files must be 'plain text' or 'UTF-8' files.", path]
                       localized: [NSString stringWithFormat: NSLocalizedString(@"File '%@' appears to be in 'rich text' format because it starts with a '{' character. All OpenVPN-related files must be 'plain text' or 'UTF-8' files.", @"Window text"), [path lastPathComponent]]];
     }
     
-    // OpenVPN configuration files can be UTF-8 or UTF-16, so don't test them
+    // OpenVPN configuration files must be UTF-8
     if (   [ext isEqualToString: @"ovpn"]
         || [ext isEqualToString: @"conf"]  ) {
+		if (  [NSString stringWithUTF8String: (const char *)chars] == NULL  ) {
+			return [self logMessage: [NSString stringWithFormat: @"File '%@' is not a plain text or UTF-8 file.", path]
+						  localized: [NSString stringWithFormat: NSLocalizedString(@"File '%@' is not a plain text or UTF-8 file.", @"Window text"), [path lastPathComponent]]];
+		}
         return nil;
     }
     
@@ -494,6 +507,10 @@ TBSYNTHESIZE_OBJECT_GET(retain, NSString *, nameForErrorMessages)
 		}
 		
 		NSMutableString * contents = [[[NSMutableString alloc] initWithData: data encoding: NSUTF8StringEncoding] autorelease];
+		if (  contents == nil  ) {
+			return [self logMessage: [NSString stringWithFormat: @"Unable to load contents of %@ as UTF-8", source]
+						  localized: [NSString stringWithFormat: NSLocalizedString(@"Unable to load contents of %@ as UTF-8", @"Window text"), source]];
+		}
 		
 		if (  [self removeOrReplaceCRs: contents]  ) {
 			if (  [contents writeToFile: target atomically: YES encoding: NSUTF8StringEncoding error: NULL]  ) {
@@ -1125,6 +1142,7 @@ TBSYNTHESIZE_OBJECT_GET(retain, NSString *, nameForErrorMessages)
 								 @"crl-verify",                    // Optional 'direction' argument
 								 @"secret",                        // Optional 'direction' argument
 								 @"tls-auth",                      // Optional 'direction' argument
+								 @"tls-crypt",
 								 nil];
     
     // List of OpenVPN options that take a command
@@ -1157,6 +1175,7 @@ TBSYNTHESIZE_OBJECT_GET(retain, NSString *, nameForErrorMessages)
                                  @"<pkcs12>",
                                  @"<secret>",
                                  @"<tls-auth>",
+                                 @"<tls-crypt>",
                                  nil];
     
     NSArray * endInlineKeys = [NSArray arrayWithObjects:
@@ -1168,6 +1187,7 @@ TBSYNTHESIZE_OBJECT_GET(retain, NSString *, nameForErrorMessages)
                                @"</pkcs12>",
                                @"</secret>",
                                @"</tls-auth>",
+                               @"</tls-crypt>",
                                nil];
     
     // List of OpenVPN options that cannot appear in a Tunnelblick VPN Configuration unless the file they reference has an absolute path
@@ -1361,6 +1381,11 @@ TBSYNTHESIZE_OBJECT_GET(retain, NSString *, nameForErrorMessages)
                                      [NSNumber numberWithUnsignedLong: permissions],              NSFilePosixPermissions,
                                      nil];
         const char * bytes = [configString UTF8String];
+		if (  bytes == NULL) {
+			return [self logMessage: @"Unable to parse configuration file as UTF-8 (#1)"
+						  localized: NSLocalizedString(@"Unable to parse configuration file as UTF-8", @"Window text")];
+		}
+
         if (  [gFileMgr createFileAtPath: outputConfigPath
                                 contents: [NSData dataWithBytes: bytes
                                                          length: strlen(bytes)]
@@ -1375,6 +1400,10 @@ TBSYNTHESIZE_OBJECT_GET(retain, NSString *, nameForErrorMessages)
         FILE * outFile = fopen([configPath fileSystemRepresentation], "w");
         if (  outFile  ) {
             const char * bytes = [configString UTF8String];
+			if (  bytes == NULL) {
+				return [self logMessage: @"Unable to parse configuration file as UTF-8 (#2)"
+							  localized: NSLocalizedString(@"Unable to parse configuration file as UTF-8", @"Window text")];
+			}
 			if (  fwrite(bytes, strlen(bytes), 1, outFile) != 1  ) {
 				return [self logMessage: @"Unable to write to configuration file for modification"
                               localized: NSLocalizedString(@"Unable to write to configuration file for modification", @"Window text")];
@@ -1653,6 +1682,7 @@ TBSYNTHESIZE_OBJECT_GET(retain, NSString *, nameForErrorMessages)
     @"tls-auth|"
     @"tls-cipher|"
     @"tls-client|"
+    @"tls-crypt|"
     @"tls-exit|"
     @"tls-export-cert|"
     @"tls-remote|"

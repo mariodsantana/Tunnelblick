@@ -92,7 +92,7 @@
 "Delete saved passphrase and try again" = "Supprimer la phrase de chiffrement et réessayer";
 
 /* Button */
-"Delete saved password and try again" = "Supprimer le mot de passe et réessayer";
+"Delete saved password and try again" = "Supprimer le mot de passe enregistré et réessayer";
 
 /* Button */
 "Delete" = "Supprimer";
@@ -344,6 +344,9 @@
 "VPN Details..." = "Détails VPN…";
 
 /* Checkbox name */
+"Allow changes to manually-set network settings" = "Autoriser les changements sur les paramètres réseaux réglés manuellement";
+
+/* Checkbox name */
 "Apply to all" = "Appliquer à tous";
 
 /* Checkbox name */
@@ -356,7 +359,7 @@
 "Check if the apparent public IP address changed after connecting" = "Vérifier si l’adresse IP publique a changé après la connexion";
 
 /* Checkbox name */
-"Disable IPv6 (tun only)" = "Désactiver IPv6 (tun uniquement)";
+"Disable IPv6 (tun only)" = "Désactiver IPv6 (connexions \"tun\" uniquement)";
 
 /* Checkbox name */
 "Disconnect when computer goes to sleep" = "Déconnecter lorsque l'ordinateur entre en veille";
@@ -419,7 +422,7 @@
 "Prepend domain name to search domains" = "Ajouter le nom de domaine avant les autres domaines de recherche";
 
 /* Checkbox name */
-"Reconnect when computer wakes up" = "Reconnecter au réveil de l'ordinateur";
+"Reconnect when computer wakes up" = "Reconnecter à la sortie de veille";
 
 /* Checkbox name */
 "Reconnect when user switches in" = "Rétablir la connexion lors du retour au compte d'utilisateur original";
@@ -800,7 +803,7 @@
 " Tunnelblick must be installed in Applications.\n\n" = " Tunnelblick doit être installé dans le dossier Applications.\n\n";
 
 /* Window text; '%@' is the name of a configuration */
-" Tunnelblick needs computer administrator authorization so it can automatically connect '%@' when the computer starts." = " Tunnelblick doit avoir les droits d'administration de l’ordinateur pour se connecter automatiquement à « %@ » quand l’ordinateur démarre.";
+" Tunnelblick needs computer administrator authorization so it can automatically connect '%@' when the computer starts." = " Tunnelblick a besoin d'une autorisation d'administrateur pour pouvoir se connecter automatiquement à « %@ » lorsque l’ordinateur démarre.";
 
 /* Window text; '%@' is the name of a configuration */
 " Tunnelblick needs computer administrator authorization so it can stop automatically connecting '%@' when the computer starts." = " Tunnelblick doit avoir les droits d'administration de l’ordinateur pour cesser de se connecter automatiquement de « %@ » quand l’ordinateur démarre.";
@@ -842,13 +845,13 @@
 "(The 'easy-rsaPath' preference is invalid.)" = "(La préférence 'easy-rsaPath' est invalide.)";
 
 /* Window text */
-"(if connected when computer went to sleep)" = "(si connecté lorsque l'ordinateur passe en veille)";
+"(if connected when computer went to sleep)" = "(si connecté lorsque l'ordinateur entre en veille)";
 
 /* Window text */
 "(if connected when user switched out)" = "(si connecté lors de la permutation de comptes)";
 
 /* Window text */
-"<br>Based on Tunnelblick, free software available at<br><a href=\"https://tunnelblick.net\">https://tunnelblick.net</a><br><br>OpenVPN is a registered trademark of OpenVPN Technologies, Inc." = "<br>Basé surTunnelblick, logiciel livre disponible sur<br><a href=\"https://tunnelblick.net\">https://tunnelblick.net</a><br><br>OpenVPN est une marque déposée de OpenVPN Technologies, Inc.";
+"<br>Based on Tunnelblick, free software available at<br><a href=\"https://tunnelblick.net\">https://tunnelblick.net</a><br><br>OpenVPN is a registered trademark of OpenVPN Technologies, Inc." = "<br>Basé sur Tunnelblick, logiciel libre disponible sur<br><a href=\"https://tunnelblick.net\">https://tunnelblick.net</a><br><br>OpenVPN est une marque déposée de OpenVPN Technologies, Inc.";
 
 /* Window text */
 "A TBPreference or TBAlwaysSetPreference key refers to an unknown preference '%@' in %@" = "Une clé TBPreference ou TBAlwaysSetPreference fait référence à une préférence inconnue '%1$@' dans %2$@";
@@ -914,7 +917,7 @@
 "An error occurred while trying to revert to the secured (shadow) copy. See the Console Log for details.\n\n" = "Une erreur est survenue lors de la restauration de la sauvegarde. Voir Console Log pour les details.\n\n";
 
 /* Window text */
-"An error occurred. See the Console Log for details." = "Une erreur est survenue. Consultez le journal de la console pour plus d'information.";
+"An error occurred. See the Console Log for details." = "Une erreur est survenue. Consultez les logs dans l'application \"Console\" pour plus d'information.";
 
 /* Window text */
 "An internal Tunnelblick error occurred%@%@" = "Une erreur interne à Tunnelblick est survenue %1$@%2$@";
@@ -950,7 +953,7 @@
 "Are you sure you wish to install configurations which can TAKE COMPLETE CONTROL OF YOUR COMPUTER?\n\n" = "Êtes vous sûr de vouloir installer les configurations qui pourront PRENDRE LE CONTRÔLE COMPLET DE VOTRE ORDINATEUR ?\n\n";
 
 /* Window text */
-"Are you sure you wish to install configurations which might be able to TAKE COMPLETE CONTROL OF YOUR COMPUTER?\n\n" = "Êtes vous sûr de vouloir installer les configurations qui pourraient PRENDRE LE CONTRÔLE COMPLET DE VOTRE ORDINATEUR ?\n\n";
+"Are you sure you wish to install configurations which might be able to TAKE COMPLETE CONTROL OF YOUR COMPUTER?\n\n" = "Êtes vous sûr de vouloir installer des configurations qui pourraient PRENDRE LE CONTRÔLE COMPLET DE VOTRE ORDINATEUR ?\n\n";
 
 /* Window text */
 "At line %lu of the OpenVPN configuration file: %@" = "A la ligne %1$lu du fichier de configuration de OpenVPN : %2$@";
@@ -998,7 +1001,7 @@
 "Configuration '%@' will be ignored because its name contains characters that are not allowed.\n\nCharacters that are not allowed: '%s'\n\n" = "La configuration '%1$@' va être ignorée car son nom contient des caractères non autorisés.\n\nCaractères non autorisés : '%2$s'\n\n";
 
 /* Window text */
-"Configuration changes:" = "Changements sur la configuration :";
+"Configuration changes:" = "Éditions de configuration :";
 
 /* Window text */
 "Configurations are installed from files that are supplied to you by your network manager or VPN service provider.\n\nConfiguration files have extensions of .tblk, .ovpn, or .conf.\n\n(There may be other files associated with the configuration that have other extensions; ignore them.)\n\nTo install a configuration file, drag and drop it on the Tunnelblick icon in the menu bar or on the list of configurations in the 'Configurations' tab of the 'VPN Details' window.\n\nTo install multiple configuration files at one time, select all the files and then drag and drop all of them." = "Les configurations sont installées à partir de fichiers qui vous sont fournis par votre gestionnaire de réseau ou le fournisseur de services VPN.\n\nLes fichiers de configuration ont pour extensions .tblk, .ovpn, ou .conf.\n\n(Il peut y avoir d'autres fichiers associés à la configuration qui ont d'autres extensions ; ignorez les pour l'instant.)\n\nPour installer un fichier de configuration, glissez et déposez le sur l'icône Tunnelblick de la barre de menus ou sur la liste des configurations dans l'onglet \"Configurations\" de la fenêtre \"Détails du VPN\".\n\nPour installer plusieurs fichiers de configuration en une fois, sélectionnez tous les fichiers et glissez et déposez les tous.";
@@ -1079,7 +1082,7 @@
 "Do you wish to replace the '%@' configuration?\n\n" = "Voulez vous remplacer la configuration '%@' ?\n\n";
 
 /* Window text */
-"Do you wish to revert %ld configurations to their last secured (shadow) copy?\n\n" = "Voulez vous remplacer les %ld configurations par leur dernière copie de sauvegarde ?\n\n";
+"Do you wish to revert %ld configurations to their last secured (shadow) copy?\n\n" = "Voulez-vous remplacer les configurations %ld par leur dernière copie(s) sécurisée(s) ?\n\n";
 
 /* Window text */
 "Do you wish to revert the '%@' configuration to its last secured (shadow) copy?\n\n" = "Voulez vous faire revenir la configuration '%@' à sa dernière sauvegarde ?\n\n";
@@ -1133,6 +1136,9 @@
 "File '%@' is missing" = "Le fichier '%@' est manquant";
 
 /* Window text */
+"File '%@' is not a plain text or UTF-8 file." = "File '%@' is not a plain text or UTF-8 file.";
+
+/* Window text */
 "File '%@' is too short (%lu bytes)" = "Le fichier '%1$@' est trop court (%2$lu octets)";
 
 /* Window text */
@@ -1166,7 +1172,7 @@
 "Installation finished successfully." = "L’installation a réussie.";
 
 /* Window text; '%@' will be replaced with a version number such as '3.6.10' */
-"Installing and securing Tunnelblick %@..." = "Tunnelblick s’installe et se sécurise %@…";
+"Installing and securing Tunnelblick %@..." = "Installation et sécurisation de Tunnelblick %@…";
 
 /* Window text */
 "Installing configurations is not allowed" = "L'installation de configurations n'est pas autorisée";
@@ -1253,7 +1259,7 @@
 "Non-string value for an item in '%@' in %@" = "Une des valeurs de '%1$@' dans %2$@ n'est pas une chaîne";
 
 /* Window text */
-"None of the %ld selected configurations have any credentials (private key or username and password) stored in the Keychain." = "Aucune des %ld configurations sélectionnées n'ont d'informations d'authentification (clé privée ou nom d'utilisateur et mot de passe) mémorisée dans le trousseau d'accès.";
+"None of the %ld selected configurations have any credentials (private key or username and password) stored in the Keychain." = "Aucune des %ld configurations sélectionnées n'a d'informations d'authentification (clé privée ou nom d'utilisateur et mot de passe) mémorisées dans le trousseau d'accès.";
 
 /* Window text */
 "Not a .ovpn or .conf: %@" = "Le fichier %@ n'est ni un .ovpn, ni un .conf";
@@ -1343,7 +1349,7 @@
 "Search domain:" = "Chercher dans le domaine :";
 
 /* Window text; '%@' will be replaced with a version number such as '3.6.10' */
-"Securing Tunnelblick %@..." = "Tunnelblick se sécurise %@…";
+"Securing Tunnelblick %@..." = "Sécurisation de Tunnelblick %@…";
 
 /* Window text */
 "Set DNS/WINS:" = "Changer DNS/WINS :";
@@ -1355,7 +1361,7 @@
 "Skipped copying %@ because a file with that name and contents has already been copied." = "Ignoré la copie de %@ car un fichier avec ce nom et ce contenu a déjà été copié.";
 
 /* Window text; '%@' will be replaced with a version number such as '3.6.10' */
-"Starting Tunnelblick %@..." = "Tunnelblick démarre %@…";
+"Starting Tunnelblick %@..." = "Démarrage de Tunnelblick %@…";
 
 /* Window text */
 "Startup window:" = "Fenêtre de lancement :";
@@ -1373,7 +1379,7 @@
 "TBRunAlertPanel returned an error" = "TBRunAlertPanel a retourné une erreur";
 
 /* Window text */
-"TUNNELBLICK is brought to you by" = "TUNNELBLICK  vous est apporté par";
+"TUNNELBLICK is brought to you by" = "TUNNELBLICK vous est offert par";
 
 /* Window text */
 "Thank you very much for your donation to the TunnelblickProject." = "Merci beaucoup pour votre don au projet Tunnelblick.";
@@ -1577,7 +1583,7 @@
 "Tunnelblick could not display a window.\n\nCFUserNotificationCreate() returned with error = %ld; notification = %@" = "CFUserNotificationCreate() a retourné l'erreur %1$ld; notification = %2$@";
 
 /* Window text */
-"Tunnelblick could not fetch IP address information before the connection to %@ was made.\n\n" = "Tunnelblick n'a plus obtenir une adresse IP avant que la connexion à %@ ait été effectuée.\n\n";
+"Tunnelblick could not fetch IP address information before the connection to %@ was made.\n\n" = "Tunnelblick n'a pas pu obtenir une adresse IP avant que la connexion à %@ ait été effectuée.\n\n";
 
 /* Window text */
 "Tunnelblick could not find a 'tun' or 'tap' option in the OpenVPN configuration file" = "Tunnelblick n'a pas trouvé d'option 'tun' ou 'tap' dans le fichier de configuration OpenVPN";
@@ -1701,6 +1707,9 @@
 
 /* Window text */
 "Unable to open configuration file for modification" = "Impossible d'ouvrir le fichier de configuration pour modification";
+
+/* Window text */
+"Unable to parse configuration file as UTF-8" = "Unable to parse configuration file as UTF-8";
 
 /* Window text */
 "Unable to replace the '%@' configuration\n" = "Impossible de remplacer la configuration '%@'\n";
@@ -1844,7 +1853,7 @@
 "You may not remove a Deployed configuration." = "Il n'est pas permis de supprimer une configuration 'Déployée'.";
 
 /* Window text */
-"You may not remove a configuration unless it is disconnected." = "Vous ne pouvez enlever un fichier de configuration que si il est déconnecté.";
+"You may not remove a configuration unless it is disconnected." = "Vous ne pouvez pas renommer une configuration à moins de la déconnecter.";
 
 /* Window text */
 "You may not remove a configuration which is set to start when the computer starts." = "Il n'est pas permis de supprimer une configuration réglée pour être lancée au démarrage de l'ordinateur.";
@@ -1943,7 +1952,7 @@
 "<p><strong>When checked</strong>, Tunnelblick will watch for and react to changes in network settings (for example, changes caused by DHCP renewals or switching Internet connections) to attempt to keep the VPN connected. Tunnelblick's default actions when network settings change usually work well, but you may specify different actions on the 'While Connected' tab of the 'Advanced' settings window.</p>\n<p><strong>When not checked</strong>, Tunnelblick will ignore network changes.</p>\n<p><strong>This checkbox is disabled</strong> when 'Set DNS/WINS' is not set to 'Set nameserver' or 'Set nameserver (3.1)'.</p>" = "<p><strong>Si cette option est cochée</strong>, Tunnelblick va surveiller le réseau et réagir aux changements de réglages réseau (par exemple, des changements causés par un renouvellement de bail DHCP ou un changement de connexion internet) afin d'essayer de conserver la connexion au VPN. Les actions par défaut de Tunnelblick lorsque les configurations réseau changent fonctionnent bien en général, mais vous pouvez spécifier des actions différentes sur l'onglet 'Une fois connecté' de la fenêtre de réglages 'Avancé'.</p>\n<p><strong>Si cette option n'est pas cochée</strong>, Tunnelblick will ignorera les changements de configuration réseau.</p>\n<p><strong>Cette option est indisponible</strong> lorsque 'Changer DNS/WINS' n'est pas réglé sur 'Changer serveur de noms' or 'Changer serveur de noms (3.1)'.</p>";
 
 /* HTML info for the 'Show the VPN status window when the pointer is over the Tunnelblick icon' checkbox. */
-"<p><strong>When checked</strong>, VPN status windows for all 'active' configurations are displayed when the pointer is over the Tunnelblick icon.</p><p>'Active' configurations are configurations that you have attempted to connect since Tunnelblick was launched.</p><p><strong>This checkbox is disabled</strong> when 'Never Show' is selected above.</p>" = "<p><strong>When checked</strong>, VPN status windows for all 'active' configurations are displayed when the pointer is over the Tunnelblick icon.</p><p>'Active' configurations are configurations that you have attempted to connect since Tunnelblick was launched.</p><p><strong>This checkbox is disabled</strong> when 'Never Show' is selected above.</p>";
+"<p><strong>When checked</strong>, VPN status windows for all 'active' configurations are displayed when the pointer is over the Tunnelblick icon.</p><p>'Active' configurations are configurations that you have attempted to connect since Tunnelblick was launched.</p><p><strong>This checkbox is disabled</strong> when 'Never Show' is selected above.</p>" = "<p><strong>Lorsque cette option est cochée</strong>, la fenêtre du statut VPN s'affiche pour l'ensemble des connexions 'actives' lorsque vous passer votre curseur sur l'icône Tunnelblick.</p><p>Les configurations 'actives' signifient l'ensemble des tentatives de connexions réalisées depuis le lancement initial de l'application Tunnelblick.</p><p><strong>Cette option est n'est pas disponible</strong> lorsque l'option 'Ne jamais afficher' est cochée ci-dessus.</p>";
 
 /* HTML info for the 'Display window while Tunnelblick is starting up' checkbox. */
 "<p><strong>When checked</strong>, a window will display Tunnelblick's progress while starting up.</p>" = "<p><strong>Si cette option est cochée</strong>, une fenêtre affichera la progression lors du démarrage de Tunnelblick.</p>";
@@ -1957,6 +1966,9 @@
 /* HTML info for the 'Keep connected' checkbox. */
 "<p><strong>When checked</strong>, if the VPN disconnects unexpectedly, Tunnelblick will attempt to reconnect it.</p>\n<p><strong>When not checked</strong>, Tunnelblick will not try to reconnect a VPN if it disconnects unexpectedly.</p>\n" = "<p><strong>Si cette option est cochée</strong>, si le VPN se déconnecte de manière inopinée, Tunnelblick essayera de le reconnecter.</p>\n<p><strong>Si cette option n'est pas cochée</strong>, Tunnelblick n'essayera par de reconnecter le VPN en cas de déconnexion inopinée.</p>\n";
 
+/* HTML info for the 'Allow changes to manually-set network settings' checkbox. */
+"<p><strong>When checked</strong>, network settings which were set manually may be changed when the VPN connects. This will only happen if changes are specified by options in the OpenVPN configuration file or from the OpenVPN server.</p>\n<p><strong>When not checked</strong>, network settings which were set manually will not be changed when the VPN connects.</p>" = "<p><strong>Si cette option est cochée</strong>, les réglages réseau manuels peuvent être modifiés lors de la connexion du VPN. Ce ne sera le cas que si les changements sont spécifiés dans les options du fichier de configuration OpenVPN ou par le serveur OpenVPN.</p>\n<p><strong>Si cette option n'est pas cochée</strong>, les réglages réseau manuels ne seront pas modifiés lors de la connexion du VPN.</p>";
+
 /* HTML info for the 'Inhibit automatic update checking and IP Address checking' checkbox. */
 "<p><strong>When checked</strong>, no automatic checking for updates or checking for IP address changes will be done, regardless of other settings. Note: both of these activities access the Tunnelblick website.</p>\n<p><strong>When not checked</strong>, automatic checking for updates will be done if enabled below, and checking for IP address changes will be done when connecting a configuration if the configuration's setting to do so is enabled.</p><p>See <a href=\"https://tunnelblick.net/cPrivacy.html\">Privacy and Security</a> [tunnelblick.net] for details.</p><p>&nbsp;</p>" = "<p><strong>Si cette option est cochée</strong>, aucune vérification des mises à jour ou de l'adresse IP ne sera effectuée, quels que soient les autres réglages. Note: ces deux actions utilisent un accès au site de Tunnelblick.</p>\n<p><strong>Si elle n'est pas cochée</strong>, la vérification des mises à jour sera effectuée si elle est activée ci-dessous et la vérification du changement de l'adresse IP sera effectuée si les réglages de connexion le demandent.</p><p>Voir <a href=\"https://tunnelblick.net/cPrivacy.html\">Privacy and Security</a> [tunnelblick.net] pour les détails.</p><p>&nbsp;</p>";
 
@@ -1964,7 +1976,7 @@
 "<p><strong>When checked</strong>, the Tunnelblick icon is positioned near the Spotlight icon:</p>\n<p>%@</p>\n<p><strong>When not checked</strong>, the Tunnelblick icon is positioned normally:</p>\n<p>%@</p>\n<p><strong>This checkbox is disabled</strong> on macOS Sierra because it is not needed, and on systems for which it is known to cause problems.</p>\n<p><a href=\"https://tunnelblick.net/cAppInfoPlaceNearSpotLightIconCheckbox.html\">More info</a></p>" = "<p><strong>Lorsque cette option est cochée</strong>, l'icône Tunnelblick est placée à côté de l'icône de Spotlight&nbsp;:</p>\n<p>%1$@</p>\n<p><strong>Lorsque cette option n'est pas cochée</strong>, l'icône Tunnelblick est placée normalement&nbsp;:</p>\n<p>%2$@</p>\n<p><strong>Cette option est indisponible</strong> sur macOS Sierra parce qu'elle n'est pas nécessaire, ainsi que pour les systèmes sur lesquels elle pose problème.</p>\n<p><a href=\"https://tunnelblick.net/cAppInfoPlaceNearSpotLightIconCheckbox.html\">Plus d'info</a></p>";
 
 /* HTML info for the 'Show the VPN status window when disconnected' checkbox. */
-"<p><strong>When checked</strong>, the VPN status window is displayed even when the configuration is disconnected.</p><p><strong>This checkbox is disabled</strong> when 'Never Show' is selected above.</p>" = "<p><strong>When checked</strong>, the VPN status window is displayed even when the configuration is disconnected.</p><p><strong>This checkbox is disabled</strong> when 'Never Show' is selected above.</p>";
+"<p><strong>When checked</strong>, the VPN status window is displayed even when the configuration is disconnected.</p><p><strong>This checkbox is disabled</strong> when 'Never Show' is selected above.</p>" = "<p><strong>Lorsque cochée</strong>, la fenêtre du statut VPN est affichée même si vous êtes déconnecté.</p><p><strong>Cette case à cocher est non active</strong> lorsque l'option 'Ne jamais afficher' est sélectionnée ci-dessus.</p>";
 
 /* HTML info for the 'Disconnect when user switches out' checkbox. */
 "<p><strong>When checked</strong>, the VPN will be disconnected when switching to another user.</p>\n<p><strong>When not checked</strong>, the VPN will not be disconnected when switching to another user.</p>" = "<p><strong>Si cette option est cochée</strong>, le VPN sera déconnecté en cas de bascule vers un autre utilisateur.</p>\n<p><strong>Si cette option n'est pas cochée</strong>, le VPN ne sera pas déconnecté en cas de bascule vers un autre utilisateur.</p>";
@@ -2078,8 +2090,7 @@
 "Dutch translation" = "Traduction néerlandaise";
 
 /* Toolbar text for 'Lock' icon
-   Toolbar text for 'Lock' item
-*/
+   Toolbar text for 'Lock' item */
 "Enter admin mode" = "Entrer en mode admin";
 
 /* Credit description */
@@ -2087,6 +2098,9 @@
 
 /* Credit description */
 "Finnish translation" = "Traduction finnoise";
+
+/* Credit description */
+"Flemish translation" = "Traduction flamande";
 
 /* Credit description */
 "Founder, original program and documentation" = "Fondateur, logiciel original et documentation";
